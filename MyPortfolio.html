@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Blog - Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .project-img-container {
+            height: 200px;
+            overflow: hidden;
+        }
+        .project-img {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+        .post-card {
+            transition: transform 0.3s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+        .post-img-container {
+            height: 180px;
+            overflow: hidden;
+        }
+        .post-img {
+            height: 100%;
+            object-fit: cover;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #dee2e6;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -40px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border: 3px solid white;
+        }
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .quote-section {
+            background: linear-gradient(135deg, #f0f4ff 0%, #f5f0ff 100%);
+            padding: 60px 0 80px;
+        }
+        .quote-block {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px 56px 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(59,130,246,0.13);
+            text-align: center;
+            border-top: 4px solid #3b82f6;
+        }
+        .quote-icon {
+            font-size: 3rem;
+            line-height: 1;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: Georgia, serif;
+            display: block;
+            margin-bottom: 16px;
+        }
+        .quote-block p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #374151;
+            line-height: 1.9;
+            margin: 0;
+        }
+        .quote-author {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #8b5cf6;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .quote-author::before { content: '— '; }
+        #quoteCarousel .carousel-control-prev,
+        #quoteCarousel .carousel-control-next {
+            width: 42px;
+            height: 42px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 1;
+        }
+        #quoteCarousel .carousel-control-prev { left: -20px; }
+        #quoteCarousel .carousel-control-next { right: -20px; }
+        #quoteCarousel .carousel-control-prev-icon,
+        #quoteCarousel .carousel-control-next-icon {
+            filter: invert(35%) sepia(90%) saturate(400%) hue-rotate(200deg);
+            width: 16px;
+            height: 16px;
+        }
+        #quoteCarousel .carousel-indicators {
+            bottom: -36px;
+        }
+        #quoteCarousel .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            border: none;
+            opacity: 1;
+            margin: 0 4px;
+            transition: background 0.3s;
+        }
+        #quoteCarousel .carousel-indicators button.active {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="gradient-bg rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                    <span class="text-white fw-bold">SV</span>
+                </div>
+                <span class="fw-bold gradient-text">SRI VISHNU DADI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#experience">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#posts">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="display-4 fw-bold mb-3">Hi, I'm <span class="gradient-text">Sri Vishnu</span></h1>
+                    <p class="lead text-muted mb-4">Software Engineer</p>
+                    <p class="mb-4">I’m a Software Engineer dedicated to creating reliable, user-focused applications. With a strong foundation in modern development practices, I build solutions that are both functional and scalable. I actively contribute to the developer community by sharing insights and practical tutorials.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#contact" class="btn gradient-bg text-white px-4 py-2">Get in Touch</a>
+                        <a href="#posts" class="btn btn-outline-secondary px-4 py-2">View Projects</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="position-relative d-inline-block">
+                        <img src="./images/profile.jpg" 
+                             alt="Profile" 
+                             class="profile-img rounded-circle">
+                        <div class="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow">
+                            <div class="gradient-bg rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-code text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="quote-section">
+        <div class="container">
+            <!-- <h2 class="text-center fw-bold gradient-text display-5 mb-5">Quotes</h2> -->
+            <div class="position-relative" style="max-width:760px;margin:0 auto;padding:0 50px;">
+                <div id="quoteCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <blockquote class="quote-block">
+                                <span class="quote-icon">&#8220;</span>
+                                <p>Acceptance of life leads to happiness.</p>
+                                <div class="quote-author">Sri Vishnu</div>
+                            </blockquote>
+                        </div>
+                        <div class="carousel-item">
+                            <blockquote class="quote-block">
+                                <span class="quote-icon">&#8220;</span>
+                                <p>Where there is acceptance, there is no wastage of energy.</p>
+                                <div class="quote-author">Sri Vishnu</div>
+                            </blockquote>
+                        </div>
+                        <div class="carousel-item">
+                            <blockquote class="quote-block">
+                                <span class="quote-icon">&#8220;</span>
+                                <p>Develop a passion for learning. If you do, you will never cease to grow.</p>
+                                <div class="quote-author">Sri Vishnu</div>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-white">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fw-bold gradient-text display-5">About Me</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" 
+                         alt="Working" 
+                         class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-8">
+                    <p class="text-muted mb-4">
+Detail-oriented Software Engineer with hands-on experience in database management, full-stack web development. Skilled in optimizing database performance and ensuring data security across both relational (MySQL) and NoSQL (MongoDB) systems, while delivering scalable and efficient web applications.
+
+Proficient in designing and implementing responsive user interfaces and robust backend systems using Node.js, MySQL, and MongoDB.
+
+A collaborative team player who works effectively with cross-functional teams to identify issues, implement solutions, and drive continuous improvement. Passionate about building impactful digital solutions and continuously expanding technical expertise.
+                    </p>
+                    <p class="text-muted mb-4">
+                        I'm passionate about learning new technologies and sharing my knowledge through writing and speaking.
+                    </p>
+                    <p class="text-muted mb-4">
+                        <!-- When I'm not coding or writing, you can find me hiking in the mountains or experimenting with new recipes in the kitchen. -->
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-light text-dark border py-2 px-3">
+                            <i class="fas fa-code text-primary me-1"></i> Full Stack
+                        </span>
+                        <span class="badge bg-light text-dark border py-2 px-3">
+                            <i class="fas fa-pen-fancy text-purple me-1"></i> Tech Writing
+                        </span>
+                        <span class="badge bg-light text-dark border py-2 px-3">
+                            <i class="fas fa-chalkboard-teacher text-primary me-1"></i> Mentoring
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-5 bg-light">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fw-bold gradient-text display-5">My Experience</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="timeline">
+                        <!-- Experience 1 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="mb-0 fw-bold">Application Supporting Engineer</h5>
+                                        <span class="badge bg-primary">2024 - Present</span>
+                                    </div>
+                                    <h6 class="text-primary mb-3">Vedant Tech Solutions</h6>
+                                    <p class="text-muted mb-0">
+In my role, I lead application version upgrades and oversee database migrations, ensuring system stability, compatibility, and alignment with the latest technologies. I manage and optimize MySQL databases with a strong focus on performance tuning, scalability, and data integrity. Additionally, I design and implement efficient stored procedures to automate business logic, streamline operations, and enhance overall system performance.                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience 2 -->
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="mb-0 fw-bold">Cyber Security Virtual Intenship</h5>
+                                        <span class="badge bg-primary">2022 DEC - 2023 FEB</span>
+                                    </div>
+                                    <h6 class="text-primary mb-3">Palo Network</h6>
+                                    <p class="text-muted mb-0">
+                                        Completed a hands-on virtual internship focusing on cybersecurity fundamentals, including network security, threat detection, risk assessment, and incident response. Gained practical experience through simulated real-world scenarios and industry-relevant tools
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+<!--                         
+                        Experience 3
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="mb-0 fw-bold">Junior Developer</h5>
+                                        <span class="badge bg-primary">2015 - 2017</span>
+                                    </div>
+                                    <h6 class="text-primary mb-3">WebStart</h6>
+                                    <p class="text-muted mb-0">
+                                        Built and maintained client websites using HTML, CSS, and JavaScript. Assisted in backend development with PHP and MySQL.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Posts Section -->
+    <section id="posts" class="py-5 bg-white">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fw-bold gradient-text display-5">Featured Projects</h2>
+            <div class="row g-4">
+                <!-- Post 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 post-card">
+                        <div class="post-img-container">
+                            <img src="./images/publication.png" 
+                                 class="post-img w-100" 
+                                 alt="Post cover">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">Design & Developed</span>
+                                <small class="text-muted">May 01, 2025</small>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-primary">React</span>
+                                <span class="badge bg-success">Node.js</span>
+                            </div>
+                            <h5 class="card-title">Publication Web Application</h5>
+                            <p class="card-text text-muted">A system designed to simplify publication submission and approval. Users can easily submit publications through a form, and the system automatically routes them through the required approval stages. It also allows users to track the real-time status of their submissions, ensuring transparency and efficiency throughout the process.</p>
+      </div>
+                        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="./images/profile.jpg" 
+                                     alt="Author" 
+                                     class="rounded-circle me-2" width="30">
+                                <small>Sri Vishnu</small>
+                            </div>
+                            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#postModal1">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Post 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 post-card">
+                        <div class="post-img-container">
+                            <img src="./images/publication.png" 
+                                 class="post-img w-100" 
+                                 alt="Post cover">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success">Design & Developed</span>
+                                <small class="text-muted">June, 2025</small>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-success">Node.js</span>
+                                <span class="badge bg-primary">MySQL</span>
+                            </div>
+                            <h5 class="card-title">CEMS</h5>
+                            <p class="card-text text-muted">
+CEMS is a web-based system that manages user information and card validity in a centralized platform for easy administration.
+It highlights expired cards in red, enabling quick identification, along with easy access to complete user details for efficient monitoring.                            </p>
+                        </div>
+                        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="./images/profile.jpg" 
+                                     alt="Author" 
+                                     class="rounded-circle me-2" width="30">
+                                <small>Sri Vishnu</small>
+                            </div>
+                            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#postModal2">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Post 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 post-card">
+                        <div class="post-img-container">
+                            <img src="./images/publication.png" 
+                                 class="post-img w-100" 
+                                 alt="Post cover">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success">Design & Developed</span>
+                                <small class="text-muted">March 10, 2023</small>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-primary">React</span>
+                                <span class="badge bg-success">Node.js</span>
+                                <span class="badge bg-warning text-dark">MongoDB</span>
+                            </div>
+                            <h5 class="card-title">Portal Web Application</h5>
+                            <p class="card-text text-muted">
+Overall, this platform aims to promote open learning by simplifying content sharing and discovery, making it suitable for educational communities, self-learners, and knowledge contributors.                            </p>
+                        </div>
+                        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="./images/profile.jpg" 
+                                     alt="Author" 
+                                     class="rounded-circle me-2" width="30">
+                                <small>Sri Vishnu</small>
+                            </div>
+                            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#postModal3">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-outline-primary px-4 py-2">
+                    View All Projects <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post Modals -->
+    <!-- Modal 1 -->
+    <div class="modal fade" id="postModal1" tabindex="-1" aria-labelledby="postModal1Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <span class="badge bg-primary me-2">Design & Developed</span>
+                    <small class="text-muted">May 01, 2025</small>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <img src="./images/publication.png" class="img-fluid rounded mb-4 w-100" style="max-height:280px;object-fit:cover;" alt="Post cover">
+                    <h4 class="fw-bold mb-3">Publication Web Application</h4>
+                    <p class="text-muted">This system is designed to streamline and digitize the end-to-end publication submission and approval process within an organization. It replaces traditional manual workflows with an automated, structured, and efficient digital platform that improves productivity, transparency, and accuracy.
+
+The primary objective of the system is to simplify how users submit publications and how those publications are reviewed, approved, and tracked through multiple levels of authority. It ensures that every submission follows a consistent process, reducing delays and eliminating dependency on manual coordination.
+
+Users can submit their publications through a user-friendly interface designed for simplicity and efficiency. The submission form captures essential details such as title, description, category, attachments, and any relevant metadata. This structured approach ensures that all required information is collected at the time of submission, minimizing back-and-forth communication between users and reviewers.
+
+Once a publication is submitted, it is stored securely in the database and assigned a unique identifier. This identifier allows the system to track each publication independently throughout its lifecycle. It also ensures that no submission is lost or duplicated, maintaining data consistency across the platform.
+
+The system implements a fully automated approval workflow. After submission, each publication is routed through predefined approval stages based on organizational rules or hierarchy. These stages may include initial review, departmental approval, and final authorization. The workflow ensures that each stakeholder is involved at the appropriate stage without requiring manual intervention for routing.
+
+At each stage of the workflow, designated approvers are notified when a publication requires their attention. Notifications ensure timely action and prevent delays in the approval process. Approvers can review the content, check for compliance or quality, and either approve, reject, or request modifications.
+
+If changes are requested, the publication is sent back to the original submitter for revision. The submitter can then update the content and resubmit it for review. This iterative process ensures that the final publication meets all required standards before approval.
+
+The system significantly improves operational efficiency by automating repetitive tasks. Instead of manually tracking submissions or forwarding documents via email, the system handles routing, status updates, and notifications automatically. This reduces administrative workload and allows teams to focus on more strategic tasks.
+
+A key feature of the system is real-time tracking. Users can monitor the status of their publications at any point in time. The system provides clear status indicators such as “Submitted,” “Under Review,” “Approved,” “Rejected,” or “Published.” This transparency ensures that users are always aware of where their submission stands in the workflow.
+
+In addition to status updates, the system provides a visual progress tracker that shows each stage of the approval process. This helps users quickly understand how far their publication has progressed and what steps remain.
+
+The system also maintains a complete audit trail for every publication. Every action performed on a submission—such as creation, modification, approval, rejection, or comment—is logged with timestamps and user information. This ensures accountability and provides a reliable history for future reference or audits.
+
+Collaboration is an important aspect of the system. Reviewers and approvers can leave comments or feedback directly on the publication entry. This centralized communication eliminates confusion caused by external messaging tools and ensures that all discussions are contextually linked to the publication.
+
+From a technical standpoint, the system is built to be scalable and reliable. It is capable of handling multiple users and concurrent submissions without performance issues. The architecture ensures smooth interaction between the frontend interface, backend logic, and database operations.
+
+The database layer plays a critical role in storing publication data, user information, workflow states, and audit logs. It is optimized for performance, ensuring fast retrieval and efficient data management even as the number of records grows.
+
+Security is a fundamental aspect of the system. Role-based access control is implemented to ensure that users can only access features relevant to their responsibilities. For example, submitters can create and track publications, while approvers have access to review and decision-making functionalities.
+
+Authentication mechanisms ensure that only authorized users can access the system. Sensitive data is protected using secure practices, ensuring data integrity and confidentiality.
+
+The system also supports scalability for future enhancements. Additional features such as reporting dashboards, analytics, integration with external tools, and advanced workflow customization can be easily added without major architectural changes.
+
+Error handling and validation are integrated throughout the system. Input validation ensures that only correct and complete data is submitted. Error messages guide users in correcting mistakes, improving the overall user experience.
+
+The interface is designed to be intuitive and responsive, making it accessible across different devices and screen sizes. This ensures usability for all users regardless of their technical expertise or device preference.
+
+By automating the publication lifecycle, the system significantly reduces processing time and improves turnaround efficiency. Tasks that previously required manual coordination between multiple individuals are now handled seamlessly through automated workflows.
+
+Another major advantage of the system is improved consistency. Since all submissions follow a standardized format and process, the quality and structure of publications remain uniform across the organization.
+
+The system also enhances decision-making by providing clear visibility into publication status and history. Managers and stakeholders can easily review pending tasks, identify bottlenecks, and make informed decisions based on real-time data.
+
+Overall, this Publication Submission and Approval System represents a comprehensive solution for managing content workflows in a structured and efficient manner. It combines automation, real-time tracking, secure data handling, and collaborative features to deliver a robust platform that improves productivity and transparency across the organization.</p>
+
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="d-flex align-items-center me-auto">
+                        <img src="./images/profile.jpg" alt="Author" class="rounded-circle me-2" width="30">
+                        <small>Sri Vishnu</small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div class="modal fade" id="postModal2" tabindex="-1" aria-labelledby="postModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <span class="badge bg-purple me-2">CEMS</span>
+                    <small class="text-muted">June, 2025</small>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <img src="./images/publication.png" class="img-fluid rounded mb-4 w-100" style="max-height:280px;object-fit:cover;" alt="Post cover">
+                    <h4 class="fw-bold mb-3">CEMS Web Application</h4>
+                    <p class="text-muted">CEMS is a web-based system designed to efficiently manage and monitor user information and card validity details in a centralized platform. It provides an intuitive interface where administrators can view user records, track card status, and access complete user details in real time.
+
+The system includes an automated validity tracking feature that highlights expired cards in red, enabling administrators to quickly identify and take necessary action. This visual alert mechanism improves monitoring efficiency and reduces the chances of overlooking critical updates.
+
+CEMS enhances data management by ensuring accurate, organized, and easily accessible user information. It streamlines administrative tasks, improves decision-making, and supports effective monitoring of user and card lifecycle status within the system.</p>
+                    <p class="text-muted">This project is built using Node.js for the backend and MySQL for database management.
+It ensures efficient data handling, secure storage, and reliable performance for managing user and card information.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="d-flex align-items-center me-auto">
+                        <img src="./images/profile.jpg" alt="Author" class="rounded-circle me-2" width="30">
+                        <small>Sri Vishnu</small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3 -->
+    <div class="modal fade" id="postModal3" tabindex="-1" aria-labelledby="postModal3Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <span class="badge bg-success me-2">Web Portal</span>
+                    <small class="text-muted">March 10, 2023</small>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <img src="./images/publication.png" class="img-fluid rounded mb-4 w-100" style="max-height:280px;object-fit:cover;" alt="Post cover">
+                    <h4 class="fw-bold mb-3">Web Portal</h4>
+                    <p class="text-muted">This project proposes the development of a dynamic knowledge-sharing portal using the MERN stack (MongoDB, Express.js, React.js, and Node.js). The platform enables users to create and publish various types of content, including text posts, videos, images, posters, and informational resources. The primary objective is to build an accessible and interactive learning environment where knowledge can be freely shared and consumed.
+
+The system allows registered users to upload and manage educational or informative content, while non-registered or general users can browse and view all publicly available posts directly from the homepage without requiring authentication. This ensures easy access to knowledge and encourages continuous learning.
+
+The backend is built using Node.js and Express.js to handle API requests, authentication, and content management, while MongoDB serves as the database for storing user data and posts efficiently. The frontend is developed using React.js to provide a responsive, user-friendly interface for seamless navigation and content interaction.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="d-flex align-items-center me-auto">
+                        <img src="./images/profile.jpg" alt="Author" class="rounded-circle me-2" width="30">
+                        <small>Sri Vishnu</small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+                
+             
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-white">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fw-bold gradient-text display-5">Get In Touch</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow">
+                        <div class="row g-0">
+                            <div class="col-md-5 gradient-bg text-white p-5">
+                                <h3 class="fw-bold mb-4">Let's talk about your project</h3>
+                                <p class="mb-5">
+                                    Have a project in mind or want to discuss potential collaboration? Feel free to reach out!
+                                </p>
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-envelope me-3"></i>
+                                        <span>srivishnudadi.1@gmail.com</span>
+                                    </div>
+                                    <!-- <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-phone-alt me-3"></i>
+                                        <span>9493442396</span>
+                                    </div> -->
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt me-3"></i>
+                                        <span>Bangalore Karnataka</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-3">
+                                    <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                                    <a href="https://www.linkedin.com/in/sri-vishnu-26b46a203/" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                                    <a href="#" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-7 bg-white p-5">
+                                <form>
+                                    <div class="mb-4">
+                                        <label for="name" class="form-label">Your Name</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="message" class="form-label">Your Message</label>
+                                        <textarea class="form-control" id="message" rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn gradient-bg text-white w-100 py-2">
+                                        Send Message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="gradient-bg rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                            <span class="text-white fw-bold">SV</span>
+                        </div>
+                        <span class="fw-bold gradient-text">Sri Vishnu</span>
+                    </div>
+                    <p class="text-muted">
+                        Sharing knowledge and building digital experiences that make a difference.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Explore</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#about" class="text-white text-decoration-none">About</a></li>
+                        <li class="mb-2"><a href="#experience" class="text-white text-decoration-none">Experience</a></li>
+                        <li class="mb-2"><a href="#posts" class="text-white text-decoration-none">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Connect</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="https://www.linkedin.com/in/sri-vishnu-26b46a203/" class="text-white text-decoration-none">LinkedIn</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">GitHub</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Email</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="fw-bold mb-3">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 class="fw-bold mb-3">Newsletter</h5>
+                    <form>
+                        <div class="mb-3">
+                            <input type="email" class="form-control form-control-sm" placeholder="Your email">
+                        </div>
+                        <button type="submit" class="btn btn-sm gradient-bg text-white w-100">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center text-muted">
+                <p class="mb-0">© 2026 srivishnu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Add active class to nav link based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
